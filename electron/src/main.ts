@@ -5,7 +5,14 @@ import config from './config';
 let mainWindow;
 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 900, height: 680 });
+    mainWindow = new BrowserWindow({ 
+        width: 900, 
+        height: 680,
+        webPreferences: {
+            nodeIntegration: false,
+            preload: __dirname + '/preload.js' // <--- (2) Preload script
+        }
+    });
     const isDev = config.IS_DEV;
     mainWindow.loadURL(
         isDev

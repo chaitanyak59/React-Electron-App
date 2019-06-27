@@ -23,6 +23,7 @@
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
     "start:dev": "electron electron/dev/main.js",
+    "build:electron:dev2": "tsc-watch -p ./electron/tsconfig.json --outDir \"./electron/dev\" --onSuccess \"node build-tasks/set-env.js dev\" && npm run start:dev",
     "dev:ui": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:8322 && npm run start:dev\"",
     "build:electron:dev": "tsc -p ./electron/tsconfig.json --outDir \"./electron/dev\" && node build-tasks/set-env.js dev",
     "bundle:electron": "tsc -p ./electron/tsconfig.json && node build-tasks/set-env.js prod",
@@ -30,7 +31,7 @@
     "build": "npm run react-build && npm run build:electron:prod",
     "start:prod": "electron ./electron/prod/main.js",
     "start": "npm run build:electron:dev && npm run dev:ui",
-    "build:mac": "npm run pack:mac",
+    "build:mac": "npm run pack:mac"
   },
   "browserslist": {
     "production": [
@@ -48,6 +49,7 @@
     "concurrently": "4.1.1",
     "electron": "5.0.6",
     "electron-builder": "^20.44.4",
+    "tsc-watch": "^2.2.1",
     "wait-on": "^3.2.0"
   }
 }
