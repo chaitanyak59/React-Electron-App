@@ -31,7 +31,6 @@
     "start:prod": "electron ./electron/prod/main.js",
     "start": "npm run build:electron:dev && npm run dev:ui",
     "build:mac": "npm run pack:mac",
-    "tsc:test": "tsc test.ts"
   },
   "browserslist": {
     "production": [
