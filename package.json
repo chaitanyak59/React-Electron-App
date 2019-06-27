@@ -2,24 +2,36 @@
   "name": "electron-react",
   "version": "0.1.0",
   "private": true,
+  "description": "A Sample Electron React App",
+  "author": "Chaitanya Kumar",
+  "main": "electron/prod/main.js",
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/node": "12.0.10",
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
+    "cross-env": "^5.2.0",
+    "cross-var": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
+    "rmraf": "^1.0.3",
     "typescript": "3.5.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "react-start": "PORT=8322 react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "start:dev": "electron electron/dev/main.js",
+    "dev:ui": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:8322 && npm run start:dev\"",
+    "build:electron:dev": "tsc -p ./electron/tsconfig.json --outDir \"./electron/dev\" && node build-tasks/set-env.js dev",
+    "bundle:electron": "tsc -p ./electron/tsconfig.json && node build-tasks/set-env.js prod",
+    "build:electron:prod": "npm run bundle:electron && node build-tasks/copyDeps.js",
+    "build": "npm run react-build && npm run build:electron:prod",
+    "start:prod": "electron ./electron/prod/main.js",
+    "start": "npm run build:electron:dev && npm run dev:ui",
+    "build:mac": "npm run pack:mac",
+    "tsc:test": "tsc test.ts"
   },
   "browserslist": {
     "production": [
@@ -32,5 +44,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "4.1.1",
+    "electron": "5.0.6",
+    "electron-builder": "^20.44.4",
+    "wait-on": "^3.2.0"
   }
 }
